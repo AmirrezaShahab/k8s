@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: mysql-backup-cronjob
+  namespace: default
+spec:
+  schedule: "0 */5 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: mysql-backup
+            image: amazonlinux
+            command: ["/bin/bash", "-c", "/scripts/backup.sh"]
+            env:
+            - name: DB_HOST
+              value: "6af148daa90b4c219fa571f99d25d7e2.db.arvandbaas.ir"
+            - name: DB_USER
+              value: "base-user"
+            - name: DB_PASSWORD
+              value: "T8P&j5SH%TY*ICSeq@HFFIX4"
+            - name: DB_NAME
+              value: "k8s"
+            - name: S3_BUCKET
+              value: "mysql-backup"
+            - name: S3_ENDPOINT
+              value: "https://s3.ir-tbz-sh1.arvanstorage.ir"
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-credentials
+                  key: AWS_SECRET_ACCESS_KEY
+            volumeMounts:
+            - name: backup-script
+              mountPath: /scripts
+              readOnly: true
+          volumes:
+          - name: backup-script
+            configMap:
+              name: mysql-backup-script
+          restartPolicy: OnFailure
