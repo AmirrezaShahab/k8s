@@ -107,8 +107,8 @@ sudo systemctl enable --now kubelet
 kubeadm init --pod-network-cidr=10.10.0.0/16 --apiserver-advertise-address=<ip master> --kubernetes-version 1.32.8
 
 ##Complition
-source <(kubectl completion bash) --> kubectl auto complete
-echo 'source <(kubectl completion bash)' >> ~/.bashrc
+#source <(kubectl completion bash) --> kubectl auto complete
+#echo 'source <(kubectl completion bash)' >> ~/.bashrc
 
 
 
