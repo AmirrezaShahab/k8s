@@ -39,6 +39,9 @@ OOMScoreAdjust=-999
 [Install]
 WantedBy=multi-user.target
 
+sudo systemctl daemon-reload
+systemctl start containerd
+systemctl enable containerd
 
 ## setup runc
 wget https://github.com/opencontainers/runc/releases/download/v1.3.0/runc.amd64
@@ -104,11 +107,14 @@ sudo systemctl enable --now kubelet
 
 ##kubeadm init
 
-kubeadm init --pod-network-cidr=10.10.0.0/16 --apiserver-advertise-address=<ip master> --kubernetes-version 1.32.8
+kubeadm init --pod-network-cidr=10.10.0.0/16 --apiserver-advertise-address=172.20.189.36 --kubernetes-version 1.32.8
 
 ##Complition
-#source <(kubectl completion bash) --> kubectl auto complete
-#echo 'source <(kubectl completion bash)' >> ~/.bashrc
+source <(kubectl completion bash) --> kubectl auto complete
+echo 'source <(kubectl completion bash)' >> ~/.bashrc
 
 
+ 
+## create token to joine worker
 
+kubeadm token create --print-join-command --ttl=24h
