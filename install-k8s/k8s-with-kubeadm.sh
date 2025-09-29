@@ -118,3 +118,15 @@ echo 'source <(kubectl completion bash)' >> ~/.bashrc
 ## create token to joine worker
 
 kubeadm token create --print-join-command --ttl=24h
+
+##Install CNI Calico
+
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.3/manifests/tigera-operator.yaml
+
+wget  https://raw.githubusercontent.com/projectcalico/calico/v3.30.3/manifests/custom-resources.yaml
+
+vim custom-resources.yaml
+
+##change cidr to  10.10.0.0/16
+
+kubectl create -f custom-resources.yaml
