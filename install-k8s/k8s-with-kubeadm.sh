@@ -130,3 +130,15 @@ vim custom-resources.yaml
 ##change cidr to  10.10.0.0/16
 
 kubectl create -f custom-resources.yaml
+
+##change lable node
+kubectl label node <node name> kubernetes.io/role=<label>
+
+##show all lable node
+kubectl get node <node name> --show-labels
+
+##get metrics server
+kubectl apply -f https://raw.githubusercontent.com/techiescamp/cka-certification-guide/refs/heads/main/lab-setup/manifests/metrics-server/metrics-server.yaml
+
+kubectl top nodes
+
